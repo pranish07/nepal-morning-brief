@@ -72,9 +72,9 @@ class LlmConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     provider: Literal["gemini"] = "gemini"
-    model: str = "gemini-2.5-flash"
+    model: str = "gemini-3.5-flash-lite"
     timeout_seconds: int = Field(default=90, ge=10, le=300)
-    temperature: float = Field(default=0.25, ge=0.0, le=1.0)
+    thinking_level: Literal["low", "medium", "high"] = "low"
     max_output_tokens: int = Field(default=6144, ge=512, le=32768)
 
 

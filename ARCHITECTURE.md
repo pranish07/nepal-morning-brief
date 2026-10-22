@@ -92,7 +92,7 @@ Feed content is untrusted data. The Gemini system prompt states that titles, des
 The response is validated in two stages:
 
 1. Pydantic validates the exact object shape and field lengths.
-2. Application validation requires at least the configured count of items, known candidate URLs only, no duplicate stories, and a non-empty summary for each item.
+2. Application validation requires at least the configured count of items, known candidate ids only, no duplicate selections, and a non-empty summary for each item. Source headlines and URLs are taken from the candidate record, never from the model.
 
 If any validation step fails, the section is replaced by the ranked fallback. The digest is always renderable.
 

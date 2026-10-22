@@ -50,9 +50,9 @@ class GeminiClient(LlmClient):
             "systemInstruction": {"parts": [{"text": system}]},
             "contents": [{"role": "user", "parts": [{"text": user}]}],
             "generationConfig": {
-                "temperature": self.config.temperature,
                 "maxOutputTokens": self.config.max_output_tokens,
                 "responseMimeType": "application/json",
+                "thinkingConfig": {"thinkingLevel": self.config.thinking_level},
             },
         }
         try:

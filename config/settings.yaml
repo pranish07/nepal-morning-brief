@@ -25,9 +25,9 @@ sections:
 
 llm:
   provider: gemini
-  model: gemini-2.5-flash
+  model: gemini-3.5-flash-lite
   timeout_seconds: 90
-  temperature: 0.25
+  thinking_level: low
   max_output_tokens: 6144
 
 ranking:

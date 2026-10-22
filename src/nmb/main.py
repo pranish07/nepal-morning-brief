@@ -199,6 +199,8 @@ def main(argv: list[str] | None = None) -> int:
         )
 
         if args.dry_run:
+            if hasattr(sys.stdout, "reconfigure"):
+                sys.stdout.reconfigure(encoding="utf-8", errors="replace")
             sys.stdout.write(text_body)
             sys.stdout.write("\n")
             logger.info(
