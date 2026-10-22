@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <title>{{ date_label }} - {{ from_name }}</title>
+  <style>
+    @media (prefers-color-scheme: dark) {
+      .email-bg { background-color: #0f172a !important; }
+      .email-card { background-color: #172033 !important; }
+      .email-header { background-color: #14532d !important; }
+      .email-text { color: #e5e7eb !important; }
+      .email-muted { color: #a7b0bf !important; }
+      .email-rule { border-color: #2c3850 !important; }
+      .email-link { color: #86efac !important; }
+      .email-section { color: #bbf7d0 !important; }
+      .email-footer { color: #94a3b8 !important; }
+    }
+  </style>
+</head>
+<body class="email-bg" style="margin:0;padding:0;background-color:#eef2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <div style="display:none;font-size:1px;color:#eef2f5;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">
+    {{ job_count }} Nepal tech {{ "role" if job_count == 1 else "roles" }} for the week of {{ date_label }}.
+  </div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#eef2f5;width:100%;">
+    <tr>
+      <td align="center" style="padding:24px 12px;">
+        <table role="presentation" width="640" cellpadding="0" cellspacing="0" border="0" class="email-card" style="width:100%;max-width:640px;background-color:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #d9e2ec;">
+          <tr>
+            <td class="email-header" style="background-color:#166534;padding:28px 30px 24px 30px;">
+              <div style="font-size:12px;line-height:16px;letter-spacing:2px;text-transform:uppercase;color:#dcfce7;font-weight:700;">Weekly tech jobs</div>
+              <h1 style="margin:7px 0 4px 0;font-size:30px;line-height:36px;color:#ffffff;font-weight:800;letter-spacing:-0.5px;">{{ from_name }}</h1>
+              <div style="font-size:14px;line-height:20px;color:#f0fdf4;">{{ date_label }} &middot; Nepal Time</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:24px 30px 4px 30px;">
+              <p class="email-text" style="margin:0;font-size:15px;line-height:23px;color:#334e68;">
+                Good morning. Here {{ "is" if job_count == 1 else "are" }} <strong>{{ job_count }}</strong> Nepal tech {{ "role" if job_count == 1 else "roles" }} worth a look this week. Mid-level and above, with a disclosed salary floor of NPR {{ min_salary_label }}.
+              </p>
+            </td>
+          </tr>
+          {% for job in jobs %}
+          <tr>
+            <td style="padding:20px 30px 16px 30px;">
+              <div class="email-muted" style="font-size:12px;line-height:16px;color:#829ab1;margin-bottom:5px;">{{ job.company }}</div>
+              <a class="email-link" href="{{ job.url }}" target="_blank" rel="noopener noreferrer" style="font-size:19px;line-height:26px;color:#166534;text-decoration:none;font-weight:700;">{{ job.title }}</a>
+              <div class="email-text" style="margin:9px 0 0 0;font-size:14px;line-height:21px;color:#334e68;">
+                <strong>{{ job.salary_label }}</strong> &middot; {{ job.level }} &middot; {{ job.experience or "Experience not stated" }}
+              </div>
+              <div class="email-muted" style="margin-top:5px;font-size:12px;line-height:18px;color:#829ab1;">
+                {{ job.location or "Nepal" }} &middot; Posted {{ job.posted_label }} &middot; Apply by {{ job.deadline_label }}
+              </div>
+              {% if job.skills_label %}
+              <p class="email-text" style="margin:8px 0 0 0;font-size:14px;line-height:21px;color:#486581;">Skills: {{ job.skills_label }}</p>
+              {% endif %}
+              <p style="margin:10px 0 0 0;font-size:13px;line-height:19px;">
+                <a class="email-link" href="{{ job.url }}" target="_blank" rel="noopener noreferrer" style="color:#166534;text-decoration:underline;font-weight:700;">View and apply on MeroJob</a>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:0 30px;">
+              <div class="email-rule" style="border-top:1px solid #edf2f7;height:1px;line-height:1px;font-size:0;">&nbsp;</div>
+            </td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td style="padding:22px 30px 6px 30px;">
+              <span class="email-section" style="font-size:13px;line-height:18px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:#166534;">More on LinkedIn</span>
+              <p class="email-text" style="margin:8px 0 0 0;font-size:14px;line-height:21px;color:#334e68;">
+                LinkedIn blocks automated collection, so these are pre-filtered searches rather than scraped listings.
+              </p>
+            </td>
+          </tr>
+          {% for search in linkedin_searches %}
+          <tr>
+            <td style="padding:8px 30px 0 30px;">
+              <a class="email-link" href="{{ search.url }}" target="_blank" rel="noopener noreferrer" style="font-size:15px;line-height:22px;color:#166534;text-decoration:underline;font-weight:700;">{{ search.label }}</a>
+            </td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td style="padding:26px 30px 28px 30px;background-color:#f8fafc;border-top:1px solid #e6edf3;">
+              <p class="email-footer" style="margin:0 0 6px 0;font-size:12px;line-height:18px;color:#627d98;">
+                Listings come from MeroJob. Verify details on the original listing. "Not disclosed" means the employer hid the salary.
+              </p>
+              <p class="email-footer" style="margin:0;font-size:12px;line-height:18px;color:#829ab1;">
+                Generated {{ generated_npt }}. You receive this because you subscribed to {{ from_name }}.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

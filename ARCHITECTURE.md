@@ -1,6 +1,6 @@
 # Architecture
 
-Nepal Morning Brief is a single-process Python 3.12 application started by GitHub Actions. It has no database and no web server. All changing behavior is read from two YAML files.
+Nepal Morning Brief is a single-process Python 3.12 application started by GitHub Actions. It has no database and no web server. All changing behavior is read from YAML files.
 
 ## Layers
 
@@ -13,7 +13,8 @@ Nepal Morning Brief is a single-process Python 3.12 application started by GitHu
 | LLM | `nmb.llm` | Provider-neutral curation interface and Gemini JSON client. |
 | Render | `nmb.render` | Jinja HTML and plain-text email bodies. |
 | Delivery | `nmb.senders` | Gmail SMTP and optional static-file output. |
-| Orchestration | `nmb.main` | CLI, environment checks, idempotency, run summary, exit codes. |
+| Jobs | `nmb.jobs` | Weekly MeroJob fetch, filter, render, and separate idempotency state. |
+| Orchestration | `nmb.main`, `nmb.jobs.runner` | CLI, environment checks, idempotency, run summary, exit codes. |
 
 ## Interfaces
 
@@ -73,11 +74,34 @@ config/settings.yaml + config/sources.yaml
 
 `Article.published_at` is stored as timezone-aware UTC. NPT is applied only for display and for the "one digest per NPT day" check.
 
+## Weekly jobs flow
+
+```text
+config/jobs.yaml
+      |
+      v
+MeroJobClient.fetch() -- public JSON, one weekly request
+      |
+      v
+select_jobs() -- level + title + salary + freshness + deadline
+      |
+      v
+render_jobs() -- subject, text/plain, text/html
+      |
+      v
+Gmail SMTP
+      |
+      v
+state/jobs_last_sent.json
+```
+
+The jobs pipeline is independent of the news pipeline: it does not call Gemini, does not share `state/last_sent.json`, and runs in its own workflow. LinkedIn is represented only by pre-filtered search links because it has no public jobs API and blocks automated collection.
+
 ## Failure handling
 
 - **Source failure:** each source runs in its own worker. A source is retried up to `fetch_retries` times (default 2) with exponential backoff. After the final failure it is recorded in `failed_sources`, logged, and skipped. The run continues.
 - **No items:** sections can be empty. Rendering still succeeds and reports 0 in that section.
-- **LLM failure:** any exception from `LlmClient.curate`, including HTTP 429, timeout, invalid JSON, schema failure, unknown URL, duplicates, or too few selected items, triggers the fallback for that section. The fallback is the top-ranked candidates with original titles and links and no summaries.
+- **LLM failure:** any exception from `LlmClient.curate`, including HTTP 429, timeout, invalid JSON, schema failure, unknown ids, duplicates, or too few selected items, triggers the fallback for that section. The fallback is the top-ranked candidates with original titles and links and no summaries.
 - **Rendering failure:** treated as a hard failure because there is nothing safe to send.
 - **Send failure:** Gmail transient errors are retried up to 3 attempts with backoff. Authentication and recipient rejection are not retried. The workflow fails visibly and the state file is not updated.
 - **Idempotency failure:** an unreadable or malformed state file fails closed rather than risking a duplicate email.
@@ -112,8 +136,8 @@ Recipient, sender address, app password, and API key are redacted from sender er
 
 ## Idempotency
 
-`StateStore` stores only the last NPT send date, the send timestamp, and the timezone name in `state/last_sent.json`. Before fetching, a normal run compares the stored date with the current NPT date. If they match, it exits 0 without sending. After every active sender succeeds, it atomically writes the new state. The workflow commits that file back with `contents: write` and skips the commit when the file is unchanged.
+`StateStore` stores only the last NPT send date, the send timestamp, and the timezone name. The daily news digest uses `state/last_sent.json`; the weekly jobs digest uses `state/jobs_last_sent.json`. Before fetching, a normal run compares the stored date with the current NPT date. If they match, it exits 0 without sending. After every active sender succeeds, it atomically writes the new state. Each workflow commits its own state file back with `contents: write` and skips the commit when the file is unchanged.
 
 ## Configuration boundaries
 
-Adding a source requires only `config/sources.yaml`. Adding a section requires a section entry in `config/settings.yaml` plus at least one enabled source with that section id. Item counts, output language, lookback, model, sender selection, source weights, and ranking weights are YAML values. The only schedule change is the cron expression in the workflow.
+Adding a news source requires only `config/sources.yaml`. Adding a section requires a section entry in `config/settings.yaml` plus at least one enabled source with that section id. Item counts, output language, lookback, model, sender selection, source weights, and ranking weights are YAML values. Jobs criteria and LinkedIn links are in `config/jobs.yaml`. Schedule changes are cron expressions in the respective workflow.

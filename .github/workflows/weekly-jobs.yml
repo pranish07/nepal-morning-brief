@@ -1,0 +1,72 @@
+name: Weekly Nepal Tech Jobs
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Nepal Time is UTC+05:45. GitHub cron is always UTC.
+    # 30 00 * * 0 = Sunday 06:15 NPT (primary, after the news backup window).
+    # 00 01 * * 0 = Sunday 06:45 NPT (backup; idempotency prevents duplicates).
+    - cron: "30 0 * * 0"
+    - cron: "0 1 * * 0"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nepal-tech-jobs-weekly
+  cancel-in-progress: false
+
+jobs:
+  send:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build and send weekly jobs
+        env:
+          PYTHONPATH: src
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+        run: python -m nmb.jobs
+
+      - name: Commit idempotency state
+        if: success()
+        run: |
+          if git diff --quiet -- state/jobs_last_sent.json; then
+            echo "State unchanged; nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state/jobs_last_sent.json
+          git commit -m "chore: record sent weekly jobs"
+          git pull --rebase --autostash
+          git push
+
+      - name: Write failure summary
+        if: failure()
+        run: |
+          echo "::error title=Weekly Nepal Tech Jobs failed::The jobs digest run failed. See the redacted logs above."
+          {
+            echo "## Weekly Nepal Tech Jobs failed"
+            echo ""
+            echo "The workflow failed visibly. Check the redacted job logs above."
+            echo "If the email was not sent, the state file was not updated."
+            echo "If the email was sent, check whether the state commit succeeded before retrying."
+          } >> "$GITHUB_STEP_SUMMARY"

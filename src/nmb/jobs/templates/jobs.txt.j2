@@ -1,0 +1,27 @@
+{{ from_name|upper }}
+{{ date_label }} - Nepal Time
+{{ "=" * 60 }}
+
+Good morning. Here {{ "is" if job_count == 1 else "are" }} {{ job_count }} Nepal tech {{ "role" if job_count == 1 else "roles" }} worth a look this week.
+{% for job in jobs %}
+
+{{ loop.index }}. {{ job.title }}
+   {{ job.company }}
+   {{ job.level }} | {{ job.salary_label }} | {{ job.experience or "Experience not stated" }}
+   {{ job.location or "Nepal" }} | Apply by {{ job.deadline_label }}
+{% if job.skills_label %}
+   Skills: {{ job.skills_label }}
+{% endif %}
+   {{ job.url }}
+{% endfor %}
+
+MORE ON LINKEDIN
+{{ "-" * 60 }}
+{% for search in linkedin_searches %}
+- {{ search.label }}:
+  {{ search.url }}
+{% endfor %}
+
+Listings come from MeroJob; verify details on the original listing.
+Salary floor: NPR {{ min_salary_label }}/month when disclosed. "Not disclosed" means the employer hid it.
+Generated {{ generated_npt }}.

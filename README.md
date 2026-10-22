@@ -1,6 +1,6 @@
 # Nepal Morning Brief
 
-A free, serverless daily news digest that runs on GitHub Actions and emails one newsletter every morning at about 06:00 Nepal Time (NPT, UTC+05:45).
+A free, serverless daily news digest that runs on GitHub Actions and emails one newsletter every morning at about 06:00 Nepal Time (NPT, UTC+05:45). A separate weekly email lists Nepal frontend and full-stack jobs.
 
 Each day it sends:
 
@@ -36,9 +36,12 @@ No server, database, paid API, or credit card is required. There is no HTML scra
 ```text
 nepal-morning-brief/
   .github/workflows/daily.yml
+  .github/workflows/weekly-jobs.yml
   config/sources.yaml
   config/settings.yaml
+  config/jobs.yaml
   docs/SOURCES.md
+  docs/JOBS.md
   src/nmb/
     config.py
     models.py
@@ -48,7 +51,9 @@ nepal-morning-brief/
     llm/
     senders/
     render/
+    jobs/
   state/last_sent.json
+  state/jobs_last_sent.json
   tests/
   README.md
   ARCHITECTURE.md
@@ -90,6 +95,7 @@ $env:RECIPIENT_EMAIL = "you@example.com"
 
 python -m nmb.main --dry-run
 python -m nmb.main --send-test
+python -m nmb.jobs --dry-run
 ```
 
 Bash:
@@ -106,6 +112,7 @@ export RECIPIENT_EMAIL="you@example.com"
 
 python -m nmb.main --dry-run
 python -m nmb.main --send-test
+python -m nmb.jobs --dry-run
 ```
 
 CLI behavior:
@@ -114,6 +121,7 @@ CLI behavior:
 - `--send-test` sends a short test email through Gmail and exits. It requires the three Gmail variables but does not call Gemini.
 - `--section ID` runs only one configured section, for example `--section nepal`.
 - A normal run sends the email once per NPT calendar day. A second run on the same day exits successfully without sending.
+- `python -m nmb.jobs --dry-run` prints the weekly jobs email and sends nothing. A normal jobs run sends once per NPT Sunday; a second run that day exits without sending.
 
 Run the tests without network access:
 
@@ -124,6 +132,21 @@ python -m pytest
 ### Test in GitHub Actions
 
 After the four secrets are configured, open **Actions > Daily Nepal Morning Brief > Run workflow**. A manual run performs the real pipeline and sends a real email. Check the job log for the structured JSON events and the final `run.complete` summary. If the state file says today's digest was already sent, the run exits successfully without sending. Use local `--dry-run` for a non-sending pipeline test.
+
+## Weekly tech jobs email
+
+The weekly jobs digest runs on Sunday at **06:15 NPT** (backup at 06:45) and uses the same Gmail secrets as the news digest. It is independent of the daily workflow.
+
+- Source: MeroJob's public JSON endpoint. No new secrets and no Gemini call.
+- Roles: frontend, full stack, React, Next.js, MERN, Laravel, Vue, Angular, and web developer/engineer titles.
+- Level: Mid Level or above. Junior, intern, trainee, entry-level, front desk, and front office titles are excluded.
+- Salary: disclosed roles must reach NPR 40,000/month. A hidden salary is shown as "Not disclosed", never guessed.
+- Freshness: posted in the last 30 days, with the application deadline still open.
+- Up to 10 listings, newest first. Each includes company, level, salary, experience, location, deadline, skills, and the MeroJob link.
+- LinkedIn has no public jobs API and blocks automated access. The email includes pre-filtered LinkedIn search links instead of scraped listings.
+- The jobs state is stored separately in `state/jobs_last_sent.json`.
+
+Criteria are in [config/jobs.yaml](config/jobs.yaml). Details and limitations are in [docs/JOBS.md](docs/JOBS.md). No LinkedIn, JobsNepal, KumariJob, or JobAxle scraping is used.
 
 ## Add or change sources
 

@@ -53,6 +53,9 @@ class GmailSmtpSender(Sender):
         return message
 
     def send(self, subject: str, text_body: str, html_body: str, digest: Digest) -> None:
+        self.send_content(subject, text_body, html_body)
+
+    def send_content(self, subject: str, text_body: str, html_body: str) -> None:
         message = self.build_message(subject, text_body, html_body)
         last_error: Exception | None = None
 

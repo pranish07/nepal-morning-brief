@@ -1,0 +1,42 @@
+enabled: true
+max_items: 10
+lookback_days: 30
+min_salary_npr: 40000
+include_salary_not_disclosed: true
+request_timeout_seconds: 20
+user_agent: "NepalMorningBrief-Jobs/1.0 (weekly jobs digest)"
+
+levels:
+  - Mid Level
+  - Senior Level
+  - Top Level
+
+title_patterns:
+  - '\bfront[\s-]*end\b'
+  - '\bfull[\s-]*stack\b'
+  - '\breact\b'
+  - '\bnext\.?js\b'
+  - '\bmern\b'
+  - '\blaravel\b'
+  - '\bvue\b'
+  - '\bangular\b'
+  - '\bweb\s+(developer|engineer)\b'
+
+exclude_title_patterns:
+  - '\bjunior\b'
+  - '\bintern(ship)?\b'
+  - '\btrainee\b'
+  - '\bentry[\s-]*level\b'
+  - '\bfresher\b'
+  - '\bfront[\s-]*desk\b'
+  - '\bfront[\s-]*office\b'
+
+linkedin_searches:
+  - label: Frontend roles on LinkedIn
+    url: "https://www.linkedin.com/jobs/search/?keywords=Frontend%20Developer&location=Nepal&f_E=3%2C4&f_TPR=r2592000"
+  - label: Full-stack roles on LinkedIn
+    url: "https://www.linkedin.com/jobs/search/?keywords=Full%20Stack%20Developer&location=Nepal&f_E=3%2C4&f_TPR=r2592000"
+
+email:
+  from_name: "Nepal Tech Jobs"
+  subject_prefix: "Nepal Tech Jobs"
