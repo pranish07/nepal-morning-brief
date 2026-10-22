@@ -22,6 +22,7 @@ Notes:
 - Annapurna Post items also have no per-item dates. The parser uses the feed channel's `lastBuildDate` for those items. This is a limitation of the feed, not a scrape. If precise times are required, disable this source until the publisher adds item dates.
 - Republica's `/feeds` endpoint returns XML despite a `text/html` content type. Its `/rss` alias returned HTTP 503 during verification.
 - Timestamps with an explicit offset are normalized to UTC. Timestamps with no offset, and dates recovered from URLs, are assumed to be Nepal local time (NPT). Feed-parser `*_parsed` values are already UTC and take priority.
+- In the first GitHub Actions run on 2026-10-22, Ratopati and Nepalnews returned HTTP 403 from the runner network even though both returned HTTP 200 locally. The run skipped them and still sent all 25 items. If the blocks persist, disable those two sources; the remaining seven Nepal feeds still exceed the minimum of five.
 
 ## World
 

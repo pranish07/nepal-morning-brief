@@ -182,6 +182,10 @@ To write static files instead of, or in addition to, email, add `file` to `sende
 
 The bot treats this as a normal LLM failure and sends the pre-ranked fallback digest without summaries. To recover summaries, wait for the free-tier quota to reset or change `llm.model` in `config/settings.yaml` to another Flash model available in your Gemini project. The email still goes out.
 
+**A feed returns 403 only in Actions**
+
+Some publishers block datacenter IPs even though the feed works locally. The run logs `fetch.source_failed`, skips that feed, and continues if the section still has enough items. Check [docs/SOURCES.md](docs/SOURCES.md) for the feeds observed doing this; disable one in `config/sources.yaml` if its block is permanent.
+
 **Scheduled workflow did not run**
 
 - Check the **Actions** tab and the repository's Actions permissions.
