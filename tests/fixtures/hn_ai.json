@@ -1,0 +1,28 @@
+{
+  "hits": [
+    {
+      "objectID": "1001",
+      "title": "A new open source LLM is released",
+      "url": "https://example.org/open-llm",
+      "created_at_i": 1792656000,
+      "points": 240,
+      "story_text": ""
+    },
+    {
+      "objectID": "1002",
+      "title": "Why database indexes matter",
+      "url": "https://example.org/databases",
+      "created_at_i": 1792657000,
+      "points": 90,
+      "story_text": ""
+    },
+    {
+      "objectID": "1003",
+      "title": "Ask HN: AI agents in production?",
+      "url": null,
+      "created_at_i": 1792658000,
+      "points": 55,
+      "story_text": "What has actually worked for you?"
+    }
+  ]
+}

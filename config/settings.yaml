@@ -1,0 +1,45 @@
+output_language: en
+lookback_hours: 36
+llm_candidates: 15
+request_timeout_seconds: 10
+fetch_retries: 2
+max_workers: 8
+user_agent: "NepalMorningBrief/1.0 (daily RSS/API digest)"
+
+senders:
+  - gmail_smtp
+
+sections:
+  - id: nepal
+    name: Nepal
+    count: 10
+  - id: world
+    name: World
+    count: 5
+  - id: ai
+    name: AI
+    count: 5
+  - id: programming
+    name: Programming
+    count: 5
+
+llm:
+  provider: gemini
+  model: gemini-2.5-flash
+  timeout_seconds: 90
+  temperature: 0.25
+  max_output_tokens: 6144
+
+ranking:
+  recency_weight: 5.0
+  source_weight: 1.5
+  cross_source_bonus: 2.0
+  hn_points_weight: 1.2
+  fuzzy_title_threshold: 90
+
+email:
+  from_name: "Nepal Morning Brief"
+
+file_sender:
+  output_dir: public
+  site_url: ""

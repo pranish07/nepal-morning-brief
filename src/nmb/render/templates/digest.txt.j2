@@ -1,0 +1,27 @@
+{{ from_name|upper }}
+{{ date_label }} - Nepal Time
+{{ "=" * 60 }}
+
+Good morning. Here are the stories worth your attention today.
+{% for section in sections %}
+
+{{ section.name|upper }} ({{ section.articles|length }})
+{{ "-" * 60 }}
+{% if section.articles %}
+{% for item in section.articles %}
+{{ loop.index }}. {{ item.title }}
+{% if item.summary %}
+   {{ item.summary }}
+{% endif %}
+   {{ item.source_name }} | {{ item.published_at|npt }}
+   {{ item.url }}
+{% endfor %}
+{% else %}
+No items could be collected for this section today.
+{% endif %}
+{% endfor %}
+
+{{ "=" * 60 }}
+Sources today: {{ sources|join(', ') }}.
+Summaries are original. Headlines and rights belong to the publishers.
+Generated {{ generated_npt }}.

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="{{ 'ne' if digest.output_language == 'ne' else 'en' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <title>{{ date_label }} - {{ from_name }}</title>
+  <style>
+    @media (prefers-color-scheme: dark) {
+      .email-bg { background-color: #0f172a !important; }
+      .email-card { background-color: #172033 !important; }
+      .email-header { background-color: #7f1d1d !important; }
+      .email-text { color: #e5e7eb !important; }
+      .email-muted { color: #a7b0bf !important; }
+      .email-rule { border-color: #2c3850 !important; }
+      .email-link { color: #fca5a5 !important; }
+      .email-section { color: #fda4af !important; }
+      .email-footer { color: #94a3b8 !important; }
+    }
+  </style>
+</head>
+<body class="email-bg" style="margin:0;padding:0;background-color:#eef2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <div style="display:none;font-size:1px;color:#eef2f5;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">
+    Your morning briefing: Nepal, world, AI, and programming news for {{ date_label }}.
+  </div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#eef2f5;width:100%;">
+    <tr>
+      <td align="center" style="padding:24px 12px;">
+        <table role="presentation" width="640" cellpadding="0" cellspacing="0" border="0" class="email-card" style="width:100%;max-width:640px;background-color:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #d9e2ec;">
+          <tr>
+            <td class="email-header" style="background-color:#9f1239;padding:28px 30px 24px 30px;">
+              <div style="font-size:12px;line-height:16px;letter-spacing:2px;text-transform:uppercase;color:#fecdd3;font-weight:700;">Daily news digest</div>
+              <h1 style="margin:7px 0 4px 0;font-size:30px;line-height:36px;color:#ffffff;font-weight:800;letter-spacing:-0.5px;">{{ from_name }}</h1>
+              <div style="font-size:14px;line-height:20px;color:#ffe4e6;">{{ date_label }} &middot; Nepal Time</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:24px 30px 4px 30px;">
+              <p class="email-text" style="margin:0;font-size:15px;line-height:23px;color:#334e68;">
+                Good morning. Here are the stories worth your attention today, with original summaries and links to the publishers.
+              </p>
+            </td>
+          </tr>
+          {% for section in sections %}
+          <tr>
+            <td style="padding:22px 30px 4px 30px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="border-bottom:2px solid #f1f5f9;padding-bottom:8px;">
+                    <span class="email-section" style="font-size:13px;line-height:18px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:#9f1239;">{{ section.name }}</span>
+                    <span class="email-muted" style="font-size:12px;line-height:18px;color:#829ab1;"> &nbsp;{{ section.articles|length }}</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          {% if section.articles %}
+          {% for item in section.articles %}
+          <tr>
+            <td style="padding:16px 30px 16px 30px;">
+              <div class="email-muted" style="font-size:12px;line-height:16px;color:#829ab1;margin-bottom:5px;">{{ item.source_name }}</div>
+              <a class="email-link" href="{{ item.url }}" target="_blank" rel="noopener noreferrer" style="font-size:18px;line-height:25px;color:#9f1239;text-decoration:none;font-weight:700;">{{ item.title }}</a>
+              {% if item.summary %}
+              <p class="email-text" style="margin:8px 0 0 0;font-size:15px;line-height:23px;color:#334e68;white-space:pre-line;">{{ item.summary }}</p>
+              {% endif %}
+              <div class="email-muted" style="margin-top:8px;font-size:12px;line-height:18px;color:#829ab1;">
+                {{ item.source_name }} &middot; {{ item.published_at|npt }}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:0 30px;">
+              <div class="email-rule" style="border-top:1px solid #edf2f7;height:1px;line-height:1px;font-size:0;">&nbsp;</div>
+            </td>
+          </tr>
+          {% endfor %}
+          {% else %}
+          <tr>
+            <td style="padding:14px 30px 20px 30px;">
+              <p class="email-muted" style="margin:0;font-size:14px;line-height:21px;color:#829ab1;">No items could be collected for this section today.</p>
+            </td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+          <tr>
+            <td style="padding:26px 30px 28px 30px;background-color:#f8fafc;border-top:1px solid #e6edf3;">
+              <p class="email-footer" style="margin:0 0 6px 0;font-size:12px;line-height:18px;color:#627d98;">
+                Sources today: {{ sources|join(', ') }}.
+              </p>
+              <p class="email-footer" style="margin:0;font-size:12px;line-height:18px;color:#829ab1;">
+                Summaries are original. Headlines and rights belong to the publishers. Generated {{ generated_npt }}.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Writing reliable background jobs",
+    "url": "https://dev.to/example/background-jobs",
+    "published_at": "2026-10-22T07:00:00Z",
+    "description": "A practical guide to retries, idempotency, and observability.",
+    "positive_reactions_count": 42,
+    "comments_count": 7
+  },
+  {
+    "title": "A tour of modern SQLite",
+    "url": "https://dev.to/example/sqlite-tour",
+    "published_at": "2026-10-01T07:00:00Z",
+    "description": "An older post.",
+    "positive_reactions_count": 100,
+    "comments_count": 12
+  }
+]

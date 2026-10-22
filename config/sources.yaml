@@ -1,0 +1,223 @@
+sources:
+  - id: kathmandu-post
+    name: The Kathmandu Post
+    section: nepal
+    url: https://kathmandupost.com/rss
+    type: rss
+    language: en
+    weight: 1.3
+    enabled: true
+
+  - id: onlinekhabar-en
+    name: Online Khabar English
+    section: nepal
+    url: https://english.onlinekhabar.com/feed
+    type: rss
+    language: en
+    weight: 1.1
+    enabled: true
+
+  - id: onlinekhabar-ne
+    name: Online Khabar
+    section: nepal
+    url: https://www.onlinekhabar.com/feed
+    type: rss
+    language: ne
+    weight: 1.1
+    enabled: true
+
+  - id: ratopati
+    name: Ratopati
+    section: nepal
+    url: https://ratopati.com/feed
+    type: rss
+    language: ne
+    weight: 1.0
+    enabled: true
+
+  - id: annapurna-post
+    name: Annapurna Post
+    section: nepal
+    url: https://annapurnapost.com/rss
+    type: rss
+    language: ne
+    weight: 1.0
+    enabled: true
+
+  - id: republica
+    name: Republica
+    section: nepal
+    url: https://myrepublica.nagariknetwork.com/feeds
+    type: rss
+    language: en
+    weight: 1.0
+    enabled: true
+
+  - id: khabarhub
+    name: Khabarhub
+    section: nepal
+    url: https://english.khabarhub.com/feed
+    type: rss
+    language: en
+    weight: 0.9
+    enabled: true
+
+  - id: nepalnews
+    name: Nepalnews
+    section: nepal
+    url: https://nepalnews.com/feed
+    type: rss
+    language: en
+    weight: 0.9
+    enabled: true
+
+  - id: nepalitimes
+    name: Nepali Times
+    section: nepal
+    url: https://nepalitimes.com/feed
+    type: rss
+    language: en
+    weight: 1.1
+    enabled: true
+
+  - id: bbc-world
+    name: BBC World
+    section: world
+    url: https://feeds.bbci.co.uk/news/world/rss.xml
+    type: rss
+    language: en
+    weight: 1.3
+    enabled: true
+
+  - id: aljazeera
+    name: Al Jazeera
+    section: world
+    url: https://www.aljazeera.com/xml/rss/all.xml
+    type: rss
+    language: en
+    weight: 1.1
+    enabled: true
+
+  - id: guardian-world
+    name: The Guardian
+    section: world
+    url: https://www.theguardian.com/world/rss
+    type: rss
+    language: en
+    weight: 1.1
+    enabled: true
+
+  - id: npr-world
+    name: NPR
+    section: world
+    url: https://feeds.npr.org/1004/rss.xml
+    type: rss
+    language: en
+    weight: 1.0
+    enabled: true
+
+  - id: hn-ai
+    name: Hacker News
+    section: ai
+    url: https://hn.algolia.com/api/v1/search_by_date?tags=story&query=AI
+    type: hn_api
+    language: en
+    weight: 0.9
+    enabled: true
+    keywords:
+      - AI
+      - artificial intelligence
+      - LLM
+      - large language model
+      - machine learning
+      - deep learning
+      - neural
+      - transformer
+      - OpenAI
+      - Anthropic
+      - Gemini
+      - Claude
+      - ChatGPT
+      - model
+      - agent
+
+  - id: verge-ai
+    name: The Verge AI
+    section: ai
+    url: https://www.theverge.com/rss/ai-artificial-intelligence/index.xml
+    type: rss
+    language: en
+    weight: 1.1
+    enabled: true
+
+  - id: mit-tech-review-ai
+    name: MIT Technology Review
+    section: ai
+    url: https://www.technologyreview.com/topic/artificial-intelligence/feed
+    type: rss
+    language: en
+    weight: 1.2
+    enabled: true
+
+  - id: openai-news
+    name: OpenAI
+    section: ai
+    url: https://openai.com/news/rss.xml
+    type: rss
+    language: en
+    weight: 1.1
+    enabled: true
+
+  - id: deepmind-blog
+    name: Google DeepMind
+    section: ai
+    url: https://deepmind.google/blog/rss.xml
+    type: rss
+    language: en
+    weight: 1.1
+    enabled: true
+
+  - id: huggingface-blog
+    name: Hugging Face
+    section: ai
+    url: https://huggingface.co/blog/feed.xml
+    type: rss
+    language: en
+    weight: 0.9
+    enabled: true
+
+  - id: hn-programming
+    name: Hacker News
+    section: programming
+    url: https://hn.algolia.com/api/v1/search_by_date?tags=story&query=programming
+    type: hn_api
+    language: en
+    weight: 1.0
+    enabled: true
+
+  - id: devto
+    name: DEV Community
+    section: programming
+    url: https://dev.to/api/articles?top=1&per_page=30
+    type: devto_api
+    language: en
+    weight: 0.9
+    enabled: true
+
+  - id: lobsters
+    name: Lobsters
+    section: programming
+    url: https://lobste.rs/rss
+    type: rss
+    language: en
+    weight: 1.0
+    enabled: true
+
+  - id: github-blog
+    name: GitHub Blog
+    section: programming
+    url: https://github.blog/feed/
+    type: rss
+    language: en
+    weight: 1.1
+    enabled: true

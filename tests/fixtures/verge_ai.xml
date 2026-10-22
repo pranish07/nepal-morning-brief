@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>The Verge - AI</title>
+  <link href="https://www.theverge.com/ai-artificial-intelligence"/>
+  <updated>2026-10-22T08:30:00+00:00</updated>
+  <id>tag:theverge.com,2026:/ai</id>
+  <entry>
+    <title>A new benchmark tests small AI models on real tasks</title>
+    <link href="https://www.theverge.com/ai/2026/10/22/small-model-benchmark"/>
+    <id>tag:theverge.com,2026:/ai/small-model-benchmark</id>
+    <published>2026-10-22T08:30:00+00:00</published>
+    <updated>2026-10-22T08:30:00+00:00</updated>
+    <summary>A benchmark measures how compact models handle everyday work.</summary>
+  </entry>
+</feed>
